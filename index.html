@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jogo educativo de lógica de programação em Python. Aprenda resolvendo desafios!">
+  <title>Python Logic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Elementos visuais Python no fundo -->
+  <div class="python-bg-element" style="top: 8%; left: 6%; transform: rotate(-12deg);">🐍</div>
+  <div class="python-bg-element" style="top: 80%; left: 10%; transform: rotate(8deg);">&#128013;</div>
+  <div class="python-bg-element" style="top: 18%; right: 7%; transform: rotate(14deg);">&#128187;</div>
+  <div class="python-bg-element" style="bottom: 12%; right: 12%; transform: rotate(-7deg); font-size:2.3rem;">def <b style='color:#267c2b'>python()</b>:</div>
+  <div class="python-bg-element" style="top: 52%; left: 80%; font-size:2.3rem;">print("🐍")</div>
+  <div class="python-bg-element" style="top: 32%; left: 45%; font-size:2.1rem;">&#128013;</div>
+  <div id="game-container" role="main" aria-label="Quiz Python Logic">
+    <h1 tabindex="0">Python Logic</h1>
+    <div id="progress-bar-wrapper">
+      <div id="progress-bar-bg">
+        <div id="progress-bar"></div>
+      </div>
+      <span id="progress-text"></span>
+    </div>
+    <div id="quiz-card">
+      <div id="question-area">
+        <div id="question-number"></div>
+        <p id="question-text"></p>
+        <div id="question-example"></div>
+        <div id="answers"></div>
+      </div>
+      <div id="feedback-container" class="hidden" aria-live="polite"></div>
+    </div>
+    <div id="endgame" class="hidden" aria-live="assertive">
+      <h2>Parabéns!</h2>
+      <p id="final-message"></p>
+      <button id="restart-btn" onclick="restartGame()" aria-label="Jogar Novamente">Jogar Novamente</button>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
