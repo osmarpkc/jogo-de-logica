@@ -227,19 +227,42 @@ h1 {
   #quiz-card {
     flex-direction: column;
     gap: 0;
-    max-width: 99vw;
-    width: 99vw;
-    padding: 22px 2vw 18px 2vw;
-  }
-  #feedback-container {
-    max-width: 99vw;
+    max-width: 100vw;
+    width: 100vw;
     min-width: 0;
-    margin-top: 14px;
-    margin-left: 0;
-    align-self: auto;
+    padding: 14px 2vw 10px 2vw;
+    box-sizing: border-box;
   }
   #question-area {
-    max-width: 99vw;
+    max-width: 100vw;
+    min-width: 0;
+    padding: 0;
+    gap: 6px;
+  }
+  #feedback-container {
+    max-width: 100vw;
+    min-width: 0;
+    margin-top: 10px;
+    margin-left: 0;
+    align-self: auto;
+    padding: 0;
+    font-size: 1rem;
+  }
+  #answers button {
+    font-size: 1.02rem;
+    padding: 9px 7px;
+    margin-bottom: 7px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  #question-number, #question-text, #question-example {
+    font-size: 1.05rem;
+    word-break: break-word;
+  }
+  .python-bg-element {
+    font-size: 1rem !important;
+    opacity: 0.13;
   }
 }
 
