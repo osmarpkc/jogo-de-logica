@@ -9,14 +9,20 @@
 </head>
 <body>
   <!-- Elementos visuais Python no fundo -->
-  <div class="python-bg-element" style="top: 8%; left: 6%; transform: rotate(-12deg);">🐍</div>
-  <div class="python-bg-element" style="top: 80%; left: 10%; transform: rotate(8deg);">&#128013;</div>
-  <div class="python-bg-element" style="top: 18%; right: 7%; transform: rotate(14deg);">&#128187;</div>
-  <div class="python-bg-element" style="bottom: 12%; right: 12%; transform: rotate(-7deg); font-size:2.3rem;">def <b style='color:#267c2b'>python()</b>:</div>
-  <div class="python-bg-element" style="top: 52%; left: 80%; font-size:2.3rem;">print("🐍")</div>
-  <div class="python-bg-element" style="top: 32%; left: 45%; font-size:2.1rem;">&#128013;</div>
+  <div class="python-bg-wrapper">
+    <div class="python-bg-element" style="top: 8%; left: 6%; transform: rotate(-12deg);">🐍</div>
+    <div class="python-bg-element" style="top: 80%; left: 10%; transform: rotate(8deg);">&#128013;</div>
+    <div class="python-bg-element" style="top: 18%; right: 7%; transform: rotate(14deg);">&#128187;</div>
+    <div class="python-bg-element" style="bottom: 12%; right: 12%; transform: rotate(-7deg); font-size:2.3rem;">def <b style='color:#267c2b'>python()</b>:</div>
+    <div class="python-bg-element" style="top: 52%; left: 80%; font-size:2.3rem;">print("🐍")</div>
+    <div class="python-bg-element" style="top: 32%; left: 45%; font-size:2.1rem;">&#128013;</div>
+  </div>
   <div id="game-container" role="main" aria-label="Quiz Python Logic">
     <h1 tabindex="0">Python Logic</h1>
+  <div id="info-bar" style="display:flex; justify-content:space-between; align-items:center; width:100%; max-width:430px; margin-bottom:10px;">
+    <div id="timer-container" aria-live="polite" style="font-size:1.1rem; color:#e53935;"></div>
+    <div id="live-score" style="font-size:1.1rem; color:#267c2b;"></div>
+  </div>
     <div id="progress-bar-wrapper">
       <div id="progress-bar-bg">
         <div id="progress-bar"></div>
@@ -34,6 +40,7 @@
     </div>
     <div id="endgame" class="hidden" aria-live="assertive">
       <h2>Parabéns!</h2>
+      <div id="achievement-container" style="margin-bottom:10px;"></div>
       <p id="final-message"></p>
       <button id="restart-btn" onclick="restartGame()" aria-label="Jogar Novamente">Jogar Novamente</button>
     </div>
