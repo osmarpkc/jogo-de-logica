@@ -1,4 +1,4 @@
-// Novo fluxo: quiz linear com barra de progresso
+
 let currentQuestionIndex = 0;
 let answeredQuestions = 0;
 let correctAnswers = 0;
@@ -142,9 +142,9 @@ if idade >= 18:
     example: "Comentários ajudam outros desenvolvedores a entender o código, facilitando a manutenção do programa para o usuário.",
     options: [
       "# comentário",
-      "// comentário",
+      " comentário",
       "<!-- comentário -->",
-      "/* comentário */"
+      " comentário "
     ],
     answer: 0,
     explanation: "Em Python, comentários começam com #."
@@ -269,11 +269,130 @@ if idade >= 18:
     answer: 0,
     explanation: "O comando 'break' encerra o laço imediatamente."
   },
-  // ...adicione mais perguntas para cobrir 100% dos conceitos básicos e intermediários...
-];
+  {
+    question: "Qual é o resultado de: print(2 ** 3)?",
+    example: "O operador ** em Python é usado para potência.",
+    options: [
+      "8",
+      "6",
+      "9",
+      "5"
+    ],
+    answer: 0,
+    explanation: "2 elevado à 3ª potência é 8."
+  },
+  {
+    question: "Como acessar o terceiro elemento da lista x = [10, 20, 30, 40]?",
+    example: "O índice em Python começa em 0.",
+    options: [
+      "x[2]",
+      "x[3]",
+      "x(3)",
+      "x[1]"
+    ],
+    answer: 0,
+    explanation: "x[2] retorna o terceiro elemento, que é 30."
+  },
+  {
+    question: "Qual destas estruturas é usada para tratar exceções em Python?",
+    example: "Exceções são erros que podem ser previstos e tratados.",
+    options: [
+      "try/except",
+      "if/else",
+      "for/while",
+      "def/class"
+    ],
+    answer: 0,
+    explanation: "try/except é usado para capturar e tratar exceções."
+  },
+  {
+    question: "Qual é o tipo retornado por: type(3.14)?",
+    example: "A função type retorna o tipo do objeto.",
+    options: [
+      "float",
+      "int",
+      "str",
+      "bool"
+    ],
+    answer: 0,
+    explanation: "3.14 é um número de ponto flutuante (float)."
+  },
+  {
+    question: "O que faz a expressão: 'a' in ['a', 'b', 'c']?",
+    example: "O operador 'in' verifica se um elemento está em uma sequência.",
+    options: [
+      "Retorna True",
+      "Retorna False",
+      "Retorna 'a'",
+      "Gera erro"
+    ],
+    answer: 0,
+    explanation: "'a' está presente na lista, então retorna True."
+  },
+  {
+    question: "Qual destas opções representa um dicionário em Python?",
+    example: "Dicionários usam pares chave:valor.",
+    options: [
+      "{'nome': 'Ana', 'idade': 20}",
+      "['nome', 'Ana', 'idade', 20]",
+      "('nome', 'Ana')",
+      "{'nome'; 'Ana'}"
+    ],
+    answer: 0,
+    explanation: "Dicionários usam chaves e valores entre chaves {}."
+  },
+  {
+    question: "Qual é a saída de: print(len('Python'))?",
+    example: "A função len retorna o tamanho de uma sequência.",
+    options: [
+      "6",
+      "5",
+      "7",
+      "None"
+    ],
+    answer: 0,
+    explanation: "A palavra 'Python' tem 6 letras."
+  },
+  {
+    question: "Qual comando é usado para importar um módulo em Python?",
+    example: "Módulos permitem reutilizar código.",
+    options: [
+      "import",
+      "include",
+      "require",
+      "using"
+    ],
+    answer: 0,
+    explanation: "O comando correto é import."
+  },
+  {
+    question: "Qual destas opções avalia para True?",
+    example: "O operador lógico 'and' retorna True se ambos forem True.",
+    options: [
+      "(5 > 3) and (2 < 4)",
+      "(5 < 3) and (2 < 4)",
+      "(5 > 3) and (2 > 4)",
+      "(5 < 3) and (2 > 4)"
+    ],
+    answer: 0,
+    explanation: "Ambas as condições são verdadeiras apenas na primeira opção."
+  },
+  {
+    question: "Como declarar uma função em Python?",
+    example: "Funções são definidas usando a palavra-chave def.",
+    options: [
+      "def minha_funcao():",
+      "function minha_funcao()",
+      "fun minha_funcao()",
+      "define minha_funcao()"
+    ],
+    answer: 0,
+    explanation: "A declaração correta é def minha_funcao():"
+  }
+ ];
 
 let finished = false;
-let questionOrder = []; // ordem embaralhada das perguntas
+let questionOrder = []; 
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -288,17 +407,20 @@ function startGame() {
   shuffle(questionOrder);
   currentQuestionIndex = 0;
   answeredQuestions = 0;
+  correctAnswers = 0;
+  window.answerStreak = 0;
+  clearInterval(window.questionTimer);
   document.getElementById('endgame').classList.add('hidden');
   document.getElementById('feedback-container').classList.add('hidden');
   document.getElementById('quiz-card').classList.remove('hidden');
   updateProgress();
   showQuestion();
-} 
+}
 
 function createBoard() {
   const board = document.getElementById('board');
   board.innerHTML = '';
-  // Desenhar o caminho da cobra (zig-zag)
+  
   let direction = 1;
   let pos = 0;
   for (let row = 0; row < 4; row++) {
@@ -346,7 +468,7 @@ function updatePawn() {
 function rollDice() {
   if (finished) return;
   document.getElementById('feedback-container').classList.add('hidden');
-  // Avança para a próxima pergunta/casa
+  
   if (currentQuestionIndex < questions.length) {
     playerPos = currentQuestionIndex;
     updatePawn();
@@ -368,96 +490,125 @@ function showQuestion() {
   answersDiv.innerHTML = '';
   document.getElementById('feedback-container').classList.add('hidden');
 
-  // Embaralhar as opções e manter o índice da resposta correta
-  const optionObjs = q.options.map((opt, idx) => ({ text: opt, isCorrect: idx === q.answer }));
+  
+  const optionObjs = q.options.map((opt, idx) => ({ text: opt, isCorrect: idx === q.answer, origIdx: idx }));
   for (let i = optionObjs.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [optionObjs[i], optionObjs[j]] = [optionObjs[j], optionObjs[i]];
   }
 
+  
   optionObjs.forEach((optObj, idx) => {
     const btn = document.createElement('button');
     btn.textContent = optObj.text;
     btn.onclick = () => {
       Array.from(document.querySelectorAll('#answers button')).forEach(b => b.disabled = true);
-      checkAnswer(optObj.isCorrect, q);
+      
+      checkAnswer(optObj.isCorrect, q, idx);
     };
     btn.tabIndex = 0;
     answersDiv.appendChild(btn);
   });
 
-  // Foco automático no primeiro botão de resposta
+  
   const firstBtn = answersDiv.querySelector('button');
   if (firstBtn) firstBtn.focus();
   updateProgress();
-} 
+  addAriaToAnswerButtons();
+  startQuestionTimer();
+  updateLiveScore();
+}
 
 function showFeedback(correct, q, selectedIdx) {
   answeredQuestions = Math.max(answeredQuestions, currentQuestionIndex + 1);
   updateProgress();
-  const feedback = document.getElementById('feedback-container');
-  feedback.classList.remove('hidden');
-  feedback.classList.remove('correct', 'incorrect');
-  feedback.classList.add(correct ? 'correct' : 'incorrect');
-  const isLast = currentQuestionIndex === questions.length - 1;
-  if (correct) {
-    feedback.innerHTML = `
-      <div class="feedback-title"> Resposta correta!</div>
-      <div class="feedback-explanation">${q.explanation}</div>
-      ${q.code ? `<pre class="python-code">${q.code}</pre>` : ""}
-    `;
-  } else {
-    feedback.innerHTML = `
-      <div class="feedback-title"> Resposta errada!</div>
-      <div class="feedback-correct">Correta: <b>${q.options[q.answer]}</b></div>
-      <div class="feedback-explanation">${q.explanation}</div>
-    `;
+  const feedbackDiv = document.getElementById("feedback-container");
+  feedbackDiv.classList.remove("hidden");
+  feedbackDiv.innerHTML = "";
+
+  
+  const title = document.createElement("div");
+  title.className = "feedback-title";
+  title.innerText = correct ? "Correto!" : "Incorreto";
+  feedbackDiv.appendChild(title);
+
+  
+  const explanation = document.createElement("div");
+  explanation.className = "feedback-explanation";
+  explanation.innerText = q.explanation;
+  feedbackDiv.appendChild(explanation);
+
+  
+  if (q.code) {
+    const codeBlock = document.createElement("pre");
+    codeBlock.className = "python-code";
+    codeBlock.innerText = q.code;
+    feedbackDiv.appendChild(codeBlock);
   }
-  // Foco automático no feedback
-  feedback.setAttribute('tabindex', '-1');
-  feedback.focus();
 
-  setTimeout(() => {
-    feedback.classList.add('hidden');
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-      showQuestion();
-    } else {
-      endGame();
-      setTimeout(() => {
-        const endDiv = document.getElementById('endgame');
-        if (endDiv) {
-          endDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 200);
+  
+  const answerBtns = document.querySelectorAll("#answers button");
+  
+  let correctBtnIdx = null;
+  const qIndex = questionOrder[currentQuestionIndex];
+  const qObj = questions[qIndex];
+  const optionObjs = Array.from(document.querySelectorAll('#answers button')).map((btn, idx) => btn.textContent.trim());
+  
+  for (let i = 0; i < optionObjs.length; i++) {
+    if (optionObjs[i] === qObj.options[qObj.answer]) {
+      correctBtnIdx = i;
+      break;
     }
-  }, 120);
-}
+  }
+  answerBtns.forEach((btn, idx) => {
+    btn.classList.remove("correct-answer", "wrong-answer");
+    btn.disabled = true;
+    btn.setAttribute('aria-disabled', 'true');
+    if (correct) {
+      if (idx === selectedIdx) btn.classList.add("correct-answer");
+    } else {
+      if (idx === correctBtnIdx) btn.classList.add("correct-answer");
+      if (idx === selectedIdx) btn.classList.add("wrong-answer");
+    }
+  });
 
-function checkAnswer(isCorrect, q) {
-  // Desabilita respostas, mostra feedback
-  let correct = isCorrect;
-  if (correct) correctAnswers++;
-  showFeedback(correct, q, null);
+  
+  const nextBtn = document.createElement("button");
+  nextBtn.innerText = "Próxima";
+  nextBtn.onclick = nextQuestion;
+  nextBtn.setAttribute('aria-label', 'Próxima pergunta');
+  feedbackDiv.appendChild(nextBtn);
+
+  
+  clearInterval(window.questionTimer);
+
+  
+  showAchievements();
+
+  
+  updateLiveScore();
 }
 
 function endGame() {
-  finished = true;
-  document.getElementById('quiz-card').classList.add('hidden');
-  document.getElementById('feedback-container').classList.add('hidden');
-  document.getElementById('endgame').classList.remove('hidden');
-  // Calcula porcentagem de acertos
-  const percent = Math.round((correctAnswers / questions.length) * 100);
-  document.getElementById('final-message').innerHTML =
-    `<div style='font-size:1.3rem; font-weight:bold; color:#267c2b;'>Você concluiu o questionário!</div>`+
-    `<div style='margin:14px 0 10px 0;'>Acertos: <b>${correctAnswers}</b> de <b>${questions.length}</b> (${percent}%)</div>`+
-    `<button id='restart-btn-final' style='margin-top:18px; background:#267c2b; color:#fff; border:none; padding:15px 32px; border-radius:12px; font-size:1.2rem; font-weight:500; cursor:pointer;'>Refazer questionário</button>`;
-  updateProgress();
-  // Botão de refazer recarrega a página
-  setTimeout(() => {
-    const btn = document.getElementById('restart-btn-final');
-    if(btn) btn.onclick = () => { window.location.reload(); };
-  }, 100);
+    finished = true;
+    document.getElementById('quiz-card').classList.add('hidden');
+    document.getElementById('feedback-container').classList.add('hidden');
+    document.getElementById('endgame').classList.remove('hidden');
+    
+    const percent = Math.round((correctAnswers / questions.length) * 100);
+    document.getElementById('final-message').innerHTML =
+      `<div style='font-size:1.3rem; font-weight:bold; color:#267c2b;'>Você concluiu o questionário!</div>`+
+      `<div style='margin:14px 0 10px 0;'>Acertos: <b>${correctAnswers}</b> de <b>${questions.length}</b> (${percent}%)</div>`+
+      `<div id='achievement-container' style='margin-bottom:10px;'></div>`+
+      `<button id='restart-btn-final' style='margin-top:18px; background:#267c2b; color:#fff; border:none; padding:15px 32px; border-radius:12px; font-size:1.2rem; font-weight:500; cursor:pointer;'>Refazer questionário</button>`;
+    updateProgress();
+    showAchievements();
+    showShareButton();
+    
+    setTimeout(() => {
+      const btn = document.getElementById('restart-btn-final');
+      if(btn) btn.onclick = () => { window.location.reload(); };
+    }, 100);
 } 
 
 function restartGame() {
@@ -470,13 +621,85 @@ function updateProgress() {
   document.getElementById('progress-text').textContent = `${answeredQuestions}/${questions.length}`;
 }
 
-// Inicializa o quiz automaticamente ao carregar a página
-window.onload = startGame;
-
-// Cria o container de feedback visual se não existir
-if (!document.getElementById('feedback-container')) {
-  const feedbackDiv = document.createElement('div');
-  feedbackDiv.id = 'feedback-container';
-  feedbackDiv.className = 'hidden';
-  document.getElementById('game-container').appendChild(feedbackDiv);
+function checkAnswer(isCorrect, q, selectedIdx) {
+  if (finished) return;
+  answeredQuestions = Math.max(answeredQuestions, currentQuestionIndex + 1);
+  if (isCorrect) {
+    correctAnswers++;
+    window.answerStreak = (window.answerStreak || 0) + 1;
+  } else {
+    window.answerStreak = 0;
+  }
+  showFeedback(isCorrect, q, selectedIdx);
 }
+
+
+function nextQuestion() {
+  if (finished) return;
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    showQuestion();
+  } else {
+    endGame();
+  }
+}
+
+
+// Adds ARIA attributes to answer buttons for accessibility
+function addAriaToAnswerButtons() {
+  const answerButtons = document.querySelectorAll('#answers button');
+  answerButtons.forEach((btn, idx) => {
+    btn.setAttribute('role', 'button');
+    btn.setAttribute('aria-pressed', 'false');
+    btn.setAttribute('tabindex', '0');
+    btn.setAttribute('aria-label', `Alternativa ${idx + 1}: ${btn.textContent}`);
+    btn.addEventListener('focus', () => btn.setAttribute('aria-pressed', 'true'));
+    btn.addEventListener('blur', () => btn.setAttribute('aria-pressed', 'false'));
+  });
+}
+
+// Placeholder for achievements logic
+function showAchievements() {
+  // Optionally update an achievements container
+  const container = document.getElementById('achievement-container');
+  if (container) {
+    // Example: show a simple achievement if all correct
+    if (typeof correctAnswers !== 'undefined' && typeof questions !== 'undefined' && correctAnswers === questions.length) {
+      container.innerHTML = '<span style="color:gold;font-weight:bold;">Parabéns! Você acertou todas as perguntas!</span>';
+    } else {
+      container.innerHTML = '';
+    }
+  }
+}
+
+// Updates a live region with the current score for accessibility
+function updateLiveScore() {
+  let liveRegion = document.getElementById('live-score');
+  if (!liveRegion) {
+    liveRegion = document.createElement('div');
+    liveRegion.id = 'live-score';
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.style.position = 'absolute';
+    liveRegion.style.left = '-9999px';
+    document.body.appendChild(liveRegion);
+  }
+  liveRegion.textContent = `Pontuação: ${correctAnswers} de ${questions.length}`;
+}
+
+// Starts a timer for the current question (placeholder, 30s default)
+function startQuestionTimer() {
+  if (window.questionTimer) clearInterval(window.questionTimer);
+  let timeLeft = 30; // seconds
+  const timerDiv = document.getElementById('timer');
+  if (timerDiv) timerDiv.textContent = `Tempo: ${timeLeft}s`;
+  window.questionTimer = setInterval(() => {
+    timeLeft--;
+    if (timerDiv) timerDiv.textContent = `Tempo: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(window.questionTimer);
+      // Optionally auto-move to next question or show feedback
+    }
+  }, 1000);
+}
+
+window.onload = startGame;
