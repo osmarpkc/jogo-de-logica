@@ -600,15 +600,12 @@ function endGame() {
       `<div style='font-size:1.3rem; font-weight:bold; color:#267c2b;'>Você concluiu o questionário!</div>`+
       `<div style='margin:14px 0 10px 0;'>Acertos: <b>${correctAnswers}</b> de <b>${questions.length}</b> (${percent}%)</div>`+
       `<div id='achievement-container' style='margin-bottom:10px;'></div>`+
-      `<button id='restart-btn-final' style='margin-top:18px; background:#267c2b; color:#fff; border:none; padding:15px 32px; border-radius:12px; font-size:1.2rem; font-weight:500; cursor:pointer;'>Refazer questionário</button>`;
+
     updateProgress();
     showAchievements();
     showShareButton();
     
-    setTimeout(() => {
-      const btn = document.getElementById('restart-btn-final');
-      if(btn) btn.onclick = () => { window.location.reload(); };
-    }, 100);
+
 } 
 
 function restartGame() {
